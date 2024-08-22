@@ -1,8 +1,6 @@
-// Copyright © 2017-2020 Trust Wallet.
+// SPDX-License-Identifier: Apache-2.0
 //
-// This file is part of Trust. The full Trust copyright notice, including
-// terms governing use, modification, and redistribution, is contained in the
-// file LICENSE at the root of the source code distribution tree.
+// Copyright © 2017 Trust Wallet.
 
 #pragma once
 
@@ -32,8 +30,12 @@ std::vector<TWCoinType> getCoinTypes();
 /// Validates an address for a particular coin.
 bool validateAddress(TWCoinType coin, const std::string& address);
 
+/// Validates an address for a particular coin.
+bool validateAddress(TWCoinType coin, const std::string& address, const PrefixVariant& prefix);
+
 /// Validates and normalizes an address for a particular coin.
 std::string normalizeAddress(TWCoinType coin, const std::string& address);
+std::string normalizeAddress(TWCoinType coin, const std::string& address, const PrefixVariant& prefix);
 
 /// Returns the blockchain for a coin type.
 TWBlockchain blockchain(TWCoinType coin);
@@ -74,11 +76,11 @@ std::string deriveAddress(TWCoinType coin, const PrivateKey& privateKey);
 /// Derives the address for a particular coin from the private key, with given derivation.
 std::string deriveAddress(TWCoinType coin, const PrivateKey& privateKey, TWDerivation derivation);
 
-/// Derives the address for a particular coin from the public key.
-std::string deriveAddress(TWCoinType coin, const PublicKey& publicKey);
+/// Derives the address for a particular coin from the public key, with given derivation and addressPrefix.
+std::string deriveAddress(TWCoinType coin, const PublicKey& publicKey, TWDerivation derivation = TWDerivationDefault, const PrefixVariant& addressPrefix = std::monostate());
 
-/// Derives the address for a particular coin from the public key, with given derivation.
-std::string deriveAddress(TWCoinType coin, const PublicKey& publicKey, TWDerivation derivation);
+/// Returns the binary representation of a string address
+Data addressToData(TWCoinType coin, const std::string& address);
 
 /// Hasher for deriving the extended public key
 Hash::Hasher publicKeyHasher(TWCoinType coin);
@@ -101,6 +103,12 @@ byte p2shPrefix(TWCoinType coin);
 /// Returns human readable part for a coin type.
 enum TWHRP hrp(TWCoinType coin);
 
+/// Returns the ss58 prefix of a coin type.
+std::uint32_t ss58Prefix(TWCoinType coin);
+
+/// Returns chain ID.
+const char* chainId(TWCoinType coin);
+
 // Note: use output parameter to avoid unneeded copies
 void anyCoinSign(TWCoinType coinType, const Data& dataIn, Data& dataOut);
 
@@ -115,8 +123,6 @@ void anyCoinPlan(TWCoinType coinType, const Data& dataIn, Data& dataOut);
 Data anyCoinPreImageHashes(TWCoinType coinType, const Data& txInputData);
 
 void anyCoinCompileWithSignatures(TWCoinType coinType, const Data& txInputData, const std::vector<Data>& signatures, const std::vector<PublicKey>& publicKeys, Data& txOutputOut);
-
-Data anyCoinBuildTransactionInput(TWCoinType coinType, const std::string& from, const std::string& to, const uint256_t& amount, const std::string& asset, const std::string& memo, const std::string& chainId);
 
 // Describes a derivation: path + optional format + optional name
 struct Derivation {
@@ -140,6 +146,7 @@ struct CoinInfo {
     byte p2pkhPrefix;
     byte p2shPrefix;
     TWHRP hrp;
+    const char* chainId;
     Hash::Hasher publicKeyHasher;
     Hash::Hasher base58Hasher;
     Hash::Hasher addressHasher;
@@ -148,6 +155,7 @@ struct CoinInfo {
     const char* explorerTransactionUrl;
     const char* explorerAccountUrl;
     uint32_t slip44;
+    std::uint32_t ss58Prefix;
 
     // returns default derivation
     const Derivation defaultDerivation() const {

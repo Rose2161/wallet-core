@@ -1,16 +1,14 @@
-// Copyright © 2017-2022 Trust Wallet.
+// SPDX-License-Identifier: Apache-2.0
 //
-// This file is part of Trust. The full Trust copyright notice, including
-// terms governing use, modification, and redistribution, is contained in the
-// file LICENSE at the root of the source code distribution tree.
+// Copyright © 2017 Trust Wallet.
 
 import "mocha";
 import { assert } from "chai";
-import { WalletCore } from "../dist";
 
 describe("Mnemonic", () => {
+
   it("test isValid", () => {
-    const { Mnemonic } = WalletCore;
+    const { Mnemonic } = globalThis.core;
 
     assert.isTrue(
       Mnemonic.isValid(
@@ -25,7 +23,7 @@ describe("Mnemonic", () => {
   });
 
   it("test isValidWord", () => {
-    const { Mnemonic } = WalletCore;
+    const { Mnemonic } = globalThis.core;
 
     assert.isTrue(Mnemonic.isValidWord("credit"));
 
@@ -35,7 +33,7 @@ describe("Mnemonic", () => {
   });
 
   it("test suggest", () => {
-    const { Mnemonic } = WalletCore;
+    const { Mnemonic } = globalThis.core;
 
     assert.equal(Mnemonic.suggest("air"), "air airport");
     assert.equal(Mnemonic.suggest("rob"), "robot robust");

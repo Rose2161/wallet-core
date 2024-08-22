@@ -1,13 +1,11 @@
-// Copyright © 2017-2022 Trust Wallet.
+// SPDX-License-Identifier: Apache-2.0
 //
-// This file is part of Trust. The full Trust copyright notice, including
-// terms governing use, modification, and redistribution, is contained in the
-// file LICENSE at the root of the source code distribution tree.
+// Copyright © 2017 Trust Wallet.
 
 #pragma once
 
 #include "../Bech32Address.h"
-#include "../Data.h"
+#include "Data.h"
 #include "../PublicKey.h"
 #include "../Coin.h"
 #include <TrustWalletCore/TWCoinType.h>
@@ -22,9 +20,6 @@ class Address: public Bech32Address {
 public:
     Address() : Bech32Address("") {}
 
-    /// Initializes an address with a key hash, with prefix of the given coin.
-    Address(TWCoinType coin, const Data& keyHash) : Bech32Address(stringForHRP(TW::hrp(coin)), keyHash) {}
-
     /// Initializes an address with a key hash, with given prefix.
     Address(const std::string& hrp, const Data& keyHash) : Bech32Address(hrp, keyHash) {}
 
@@ -37,6 +32,11 @@ public:
     /// Determines whether a string makes a valid Bech32 address, and the HRP matches to the coin.
     static bool isValid(TWCoinType coin, const std::string& addr) {
         const auto* const hrp = stringForHRP(TW::hrp(coin));
+        return Bech32Address::isValid(addr, hrp);
+    }
+
+    /// Determines whether a string makes a valid Bech32 address with the given hrp.
+    static bool isValid(const std::string& addr, const std::string& hrp) {
         return Bech32Address::isValid(addr, hrp);
     }
 

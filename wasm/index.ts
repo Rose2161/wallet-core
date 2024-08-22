@@ -1,9 +1,13 @@
-// Copyright © 2017-2022 Trust Wallet.
+// SPDX-License-Identifier: Apache-2.0
 //
-// This file is part of Trust. The full Trust copyright notice, including
-// terms governing use, modification, and redistribution, is contained in the
-// file LICENSE at the root of the source code distribution tree.
+// Copyright © 2017 Trust Wallet.
 
+import * as Loader from "./lib/wallet-core";
 import { TW } from "./generated/core_proto";
-import * as WalletCore from "./lib/wallet-core";
-export { TW, WalletCore };
+import { WalletCore } from "./src/wallet-core";
+import * as KeyStore from "./src/keystore";
+
+declare function load(): Promise<WalletCore>;
+
+export const initWasm: typeof load = Loader;
+export { TW, WalletCore, KeyStore };

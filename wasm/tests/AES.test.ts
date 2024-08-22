@@ -1,17 +1,15 @@
-// Copyright © 2017-2022 Trust Wallet.
+// SPDX-License-Identifier: Apache-2.0
 //
-// This file is part of Trust. The full Trust copyright notice, including
-// terms governing use, modification, and redistribution, is contained in the
-// file LICENSE at the root of the source code distribution tree.
+// Copyright © 2017 Trust Wallet.
 
 import "mocha";
 import { assert } from "chai";
-import { WalletCore } from "../dist";
 import { Buffer } from "buffer";
 
 describe("AES", () => {
+
   it("test decrypting", () => {
-    const { AES, HexCoding, AESPaddingMode } = WalletCore;
+    const { AES, HexCoding, AESPaddingMode } = globalThis.core;
 
     const key = HexCoding.decode(
       "5caa3a74154cee16bd1b570a1330be46e086474ac2f4720530662ef1a469662c"
@@ -29,7 +27,7 @@ describe("AES", () => {
   });
 
   it("test encrypting", () => {
-    const { AES, HexCoding, AESPaddingMode } = WalletCore;
+    const { AES, HexCoding, AESPaddingMode } = globalThis.core;
 
     const key = HexCoding.decode(
       "bbc82a01ebdb14698faee4a9e5038de72c995a9f6bcdb21903d62408b0c5ca96"

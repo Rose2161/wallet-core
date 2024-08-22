@@ -1,17 +1,14 @@
-// Copyright © 2017-2022 Trust Wallet.
+// SPDX-License-Identifier: Apache-2.0
 //
-// This file is part of Trust. The full Trust copyright notice, including
-// terms governing use, modification, and redistribution, is contained in the
-// file LICENSE at the root of the source code distribution tree.
+// Copyright © 2017 Trust Wallet.
 
 import "mocha";
 import { assert } from "chai";
 import { Buffer } from "buffer";
-import { WalletCore } from "../dist";
 
 describe("Hash", () => {
   it("test keccak256", () => {
-    const { Hash, HexCoding } = WalletCore;
+    const { Hash, HexCoding } = globalThis.core;
 
     const sha3Hash = Hash.keccak256(Buffer.from("Test keccak-256"));
 
@@ -22,7 +19,7 @@ describe("Hash", () => {
   });
 
   it("test sha256", () => {
-    const { Hash, HexCoding } = WalletCore;
+    const { Hash, HexCoding } = globalThis.core;
 
     const sha256Hash = Hash.sha256(Buffer.from("Test hash"));
     assert.equal(
@@ -32,7 +29,7 @@ describe("Hash", () => {
   });
 
   it("test sha512_256", () => {
-    const { Hash, HexCoding } = WalletCore;
+    const { Hash, HexCoding } = globalThis.core;
 
     const hash = Hash.sha512_256(Buffer.from("hello"));
     assert.equal(

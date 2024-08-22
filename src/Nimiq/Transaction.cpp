@@ -1,18 +1,13 @@
-// Copyright © 2017-2020 Trust Wallet.
+// SPDX-License-Identifier: Apache-2.0
 //
-// This file is part of Trust. The full Trust copyright notice, including
-// terms governing use, modification, and redistribution, is contained in the
-// file LICENSE at the root of the source code distribution tree.
+// Copyright © 2017 Trust Wallet.
 
 #include "Transaction.h"
 
 #include "Signer.h"
 #include "../BinaryCoding.h"
-#include "../HexCoding.h"
-#include "../PublicKey.h"
 
-using namespace TW;
-using namespace TW::Nimiq;
+namespace TW::Nimiq {
 
 const uint8_t NETWORK_ID = 42;
 const uint8_t EMPTY_FLAGS = 0;
@@ -50,3 +45,5 @@ std::vector<uint8_t> Transaction::getPreImage() const {
 
     return data;
 }
+
+} // namespace TW::Nimiq

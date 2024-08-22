@@ -28,6 +28,12 @@ Some typical special cases:
 Ex.: `10000118` for Osmosis, `118` for Cosmos; `20000714` for BNB Smart Chain.
 - Ethereum-clone chains with no own BIP-44 ID: use the `10000000 + chainID` as coinID.
 
+See also: `slip44` and `chainId`.
+
+**`slip44`**
+Optionally, SLIP-44 (BIP-44) coin ID can be specified here, in case it differs from `coinId`.  In most cases the two are the same, so this can be omitted.
+Ex.: `60` for Optimism (coinID is `10000070`).
+
 **`symbol`**
 Symbol of the native coin.  Typically a short, upper-case-only string.
 Ex.: `BTC`, `ETH`.
@@ -61,7 +67,7 @@ Note that the second number, the BIP-44 ID, usually matches the coinId.
 Some blockchains may support additional alternative derivations.  These have:
 
 - a name
-- a alternative derivation path (optional)
+- an alternative derivation path (optional)
 
 Derivation may differ in the derivation path, or by address generation method (based on the derivation name).
 The first derivation is considered the default.
@@ -120,8 +126,17 @@ Defines the prefix byte used in P2PKH and P2SH addresses, Bitcoin style.
 Ex. `0` and `5` for Bitcoin.
 
 **`hrp`**
-Human Readable Prefix used to prefix an address, used to indicate type of address, to minimalize risk of accidental address mix-up across chains.
+Human Readable Prefix used to prefix an address, used to indicate type of address, to minimize risk of accidental address mix-up across chains.
 Ex. `'bc'` for Bitcoin, `'cosmos'` for Cosmos.
+
+**`chainId`**
+Chain identifier, used by forks, e.g. in case of Ethereum (a decimal number), or Cosomos (a string ID).
+Chain identifier, in case of Ethereum it's a constant decimal number;
+for Cosmos, it's a dynamic string network id (usually changes with network upgrades).
+
+Please note the chain id might not be always latest in registry.  In transaction building current value has to be supplied each time.
+
+Ex.: `'1'` for Ethereum, `'61'` for Ethereum Classic, `'osmosis-1'`for Osmosis.
 
 **`publicKeyHasher`**
 Hash method used in XPub derivation.
@@ -135,7 +150,7 @@ Ex.: `'sha256d'` for Bitcoin, `'blake256d'` for Decred.
 
 **`addressHasher`**
 Hash method used in the publicKey -> address generation.
-Only some chain implementation use this setting, in most implementation this is fixed (and value here is only informative).
+Only some chain implementations use this setting, in most implementations this is fixed (and value here is only informative).
 Default is `sha256ripemd`.
 Ex.: missing ('sha256ripemd') for Bitcoin, `'keccak256'` for Ethereum, `'sha256ripemd'` for Cosmos, `'keccak256'` for Native Evmos, despite being a Cosmos fork.
 
@@ -174,7 +189,7 @@ Link to the default implementation of the node or RPC gateway that can be used b
 Optional URL to an available public RPC service.
 
 **`info/documentation`**
-Main porject documentation site/subsite.
+Main project documentation site/subsite.
 
 **`deprecated`**
 If set to `true`, the project is considered deprecated: its info is kept here, but it will not be supported.

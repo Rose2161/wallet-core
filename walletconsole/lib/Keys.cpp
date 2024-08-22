@@ -1,8 +1,6 @@
-// Copyright © 2017-2021 Trust Wallet.
+// SPDX-License-Identifier: Apache-2.0
 //
-// This file is part of Trust. The full Trust copyright notice, including
-// terms governing use, modification, and redistribution, is contained in the
-// file LICENSE at the root of the source code distribution tree.
+// Copyright © 2017 Trust Wallet.
 
 #include "Keys.h"
 
@@ -65,7 +63,7 @@ bool Keys::pubPri(const string& coinid, const string& p, string& res) {
     }
 }
 
-bool Keys::priPub(const string& p, string& res) {
+bool Keys::priPub([[maybe_unused]] const string& p, [[maybe_unused]] string& res) {
     _out << "Not yet implemented! :)" << endl;
     return false;
 }
@@ -77,7 +75,7 @@ void Keys::setMnemonic(const vector<string>& param) {
     }
     // concatenate
     string mnem = "";
-    for (int i = 1; i < param.size(); ++i) {
+    for (auto i = 1ul; i < param.size(); ++i) {
         if (i > 1) mnem += " ";
         mnem += param[i]; 
     }

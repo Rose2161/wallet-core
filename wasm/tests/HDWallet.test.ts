@@ -1,20 +1,16 @@
-// Copyright © 2017-2022 Trust Wallet.
+// SPDX-License-Identifier: Apache-2.0
 //
-// This file is part of Trust. The full Trust copyright notice, including
-// terms governing use, modification, and redistribution, is contained in the
-// file LICENSE at the root of the source code distribution tree.
+// Copyright © 2017 Trust Wallet.
 
 import "mocha";
 import { assert } from "chai";
-import { WalletCore } from "../dist";
-import { Buffer } from "buffer";
 
 describe("HDWallet", () => {
 
   it("test creating 24 words", () => {
-    const { HDWallet, Mnemonic } = WalletCore;
-    
-    var wallet = new HDWallet.create(256, Buffer.from("password"));
+    const { HDWallet, Mnemonic } = globalThis.core;
+
+    var wallet = HDWallet.create(256, "password");
     const mnemonic = wallet.mnemonic();
 
     assert.equal(mnemonic.split(" ").length, 24);
@@ -24,9 +20,9 @@ describe("HDWallet", () => {
   });
 
   it("test deriving Ethereum address", () => {
-    const { HDWallet, CoinType } = WalletCore;
+    const { HDWallet, CoinType } = globalThis.core;
 
-    var wallet = new HDWallet.createWithMnemonic("ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal", "TREZOR");
+    var wallet = HDWallet.createWithMnemonic("ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal", "TREZOR");
     const address = wallet.getAddressForCoin(CoinType.ethereum);
 
     assert.equal(address, "0x27Ef5cDBe01777D62438AfFeb695e33fC2335979");

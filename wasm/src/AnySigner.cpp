@@ -1,8 +1,6 @@
-// Copyright © 2017-2022 Trust Wallet.
+// SPDX-License-Identifier: Apache-2.0
 //
-// This file is part of Trust. The full Trust copyright notice, including
-// terms governing use, modification, and redistribution, is contained in the
-// file LICENSE at the root of the source code distribution tree.
+// Copyright © 2017 Trust Wallet.
 //
 
 #include <TrustWalletCore/TWAnySigner.h>
@@ -34,7 +32,7 @@ class AnySigner {
     }
 };
 
-EMSCRIPTEN_BINDINGS(Wasm_TWAnyAddress) {
+EMSCRIPTEN_BINDINGS(Wasm_TWAnySigner) {
     class_<AnySigner>("AnySigner")
         .class_function("sign", &AnySigner::sign)
         .class_function("plan", &AnySigner::plan)
