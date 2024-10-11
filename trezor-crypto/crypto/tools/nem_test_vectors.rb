@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'highline'
-require 'open-uri'
+require 'net/http'
 
 TEMPLATE_NAME = (Pathname.new(__FILE__).sub_ext '.erb').to_s.freeze
 
@@ -106,21 +106,23 @@ end
 
 download_url = choose_data_file
 
-source_code = open download_url do |file|
-  line = file.readline
+uri = URI.parse(download_url)
+source_code = Net::HTTP.get(uri)
 
-  header = load_header(line)
-  @terminal.say line
+file = StringIO.new(source_code)
+line = file.readline
 
-  count = @terminal.ask('How many vectors to import?  ', Integer)
+header = load_header(line)
+@terminal.say line
 
-  fields = ask_fields(header)
-  data = load_data(file, count)
+count = @terminal.ask('How many vectors to import?  ', Integer)
 
-  remove_skipped_fields(fields, data)
-  format_data_fields(fields, data)
+fields = ask_fields(header)
+data = load_data(file, count)
 
-  template(download_url, fields, data)
-end
+remove_skipped_fields(fields, data)
+format_data_fields(fields, data)
+
+source_code = template(download_url, fields, data)
 
 puts source_code
